@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,7 +49,7 @@ public class UserController {
      * This method will list all existing users.
      */
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.GET)
-    public String indexPage(ModelMap model) {
+    public String indexPage(Model model) {
         /*Map<String,String> param = new HashMap<String, String>();
         param.put("error","error");
         model.addAttribute("param",param);
@@ -69,10 +70,12 @@ public class UserController {
      * This method handles Access-Denied redirect.
      */
     @RequestMapping(value = "/Access_Denied")
-    public String accessDeniedPage(ModelMap model) {
-        //model.addAttribute("loggedinuser", getPrincipal());
-        model.addAttribute("error", "Ошибка авторизации");
-        return "login";
+    public ModelAndView accessDeniedPage() {
+        ModelAndView model = new ModelAndView();
+        model.addObject("error", "Ошибка авторизации");
+        logger.debug("Ошибка авторизации");
+        model.setViewName("login");
+        return model;
         //return "accessDenied";
     }
 

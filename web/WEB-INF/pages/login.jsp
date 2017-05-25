@@ -19,7 +19,7 @@
                             <p>Invalid username and password.</p>
                         </div>
                     </c:if>
-                    <c:if test="${error} != null}">
+                    <c:if test="${error != null}">
                         <div class="col s6 offset-s2">
                             <p>${error}</p>
                         </div>
