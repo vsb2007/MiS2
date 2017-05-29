@@ -1,6 +1,7 @@
 package bgroup.model;
 
 import java.io.Serializable;
+
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;

@@ -5,6 +5,7 @@ package bgroup.model;
  * MiS3
  */
 
+
 import java.sql.Date;
 import java.util.List;
 

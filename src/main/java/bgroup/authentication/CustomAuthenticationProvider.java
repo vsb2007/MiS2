@@ -5,7 +5,11 @@ package bgroup.authentication;
  * MiS3
  */
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.sql.Date;
 
 import bgroup.service.CustomUserService;
 import bgroup.service.CustomUserServiceImpl;
@@ -36,7 +40,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String lastName = null;
         String firstName = null;
         String secondName = null;
-        String birthDate = null;
+        String birthDateString = null;
         String phone = null;
 
         logger.debug("FIO String:" + fio);
@@ -49,11 +53,27 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             lastName = fioArray[1];
             firstName = fioArray[2];
             secondName = fioArray[3];
-            birthDate = fioArray[4];
+            birthDateString = fioArray[4];
             phone = fioArray[5];
         }
 
-        CustomUser user = userService.findUserByPhone(phone);
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy");
+        Date birthDate = null;
+        try {
+            //java.sql.Date sql = new java.sql.Date(parsed.getTime());
+            java.util.Date birthDateUtil = df.parse(birthDateString);
+            birthDate = new java.sql.Date(birthDateUtil.getTime());
+            logger.debug("birthDateUtil:" + birthDateUtil.toString());
+            logger.debug("birthDate:" + birthDate.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new UsernamePasswordAuthenticationToken(null, password, null);
+        }
+
+        //CustomUser user = userService.findUserByPhone(phone);
+        CustomUser user = null;
+
+        user = userService.findUserByFio(lastName,firstName,secondName,birthDate,phone);
 
         if (user == null) {
             logger.error("User not found.");

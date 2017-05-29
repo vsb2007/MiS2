@@ -1,6 +1,7 @@
 package bgroup.dao;
 
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 import bgroup.configuration.AppConfig;
@@ -23,29 +24,29 @@ import org.springframework.stereotype.Repository;
 public class UserDAOImpl extends AbstractDao<Integer, User> implements UserDao {
     static final Logger logger = LoggerFactory.getLogger(UserDAOImpl.class);
 
-  /*  public CustomUser loadUserByUsername(final String username) {
-        //Write your DB call code to get the user details from DB,But I am just hard coding the user
-        logger.debug("loadUserByUsername: in");
-        CustomUser user = new CustomUser();
-        user.setFirstName("kb");
-        user.setLastName("gc");
-        user.setUsername("kb");
-        user.setPassword("1234");
-        Role r = new Role();
-        r.setName("ROLE_USER");
-        List<Role> roles = new ArrayList<Role>();
-        roles.add(r);
-        user.setAuthorities(roles);
-        logger.debug("loadUserByUsername: " + user.getAuthorities().get(0).getName());
-        return user;
-    }
-*/
+    /*  public CustomUser loadUserByUsername(final String username) {
+          //Write your DB call code to get the user details from DB,But I am just hard coding the user
+          logger.debug("loadUserByUsername: in");
+          CustomUser user = new CustomUser();
+          user.setFirstName("kb");
+          user.setLastName("gc");
+          user.setUsername("kb");
+          user.setPassword("1234");
+          Role r = new Role();
+          r.setName("ROLE_USER");
+          List<Role> roles = new ArrayList<Role>();
+          roles.add(r);
+          user.setAuthorities(roles);
+          logger.debug("loadUserByUsername: " + user.getAuthorities().get(0).getName());
+          return user;
+      }
+  */
     @Override
     public CustomUser findById(int id) {
         return null;
     }
 
-    @Override
+   /* @Override
     public CustomUser findByPhone(String phone) {
         logger.debug("start findByPhone:" + phone);
         Criteria crit = createEntityCriteria();
@@ -77,12 +78,53 @@ public class UserDAOImpl extends AbstractDao<Integer, User> implements UserDao {
         if(user!=null){
             Hibernate.initialize(user.getUserProfiles());
         }*/
+
+   /*
         return customUser;
     }
+    */
 
     @Override
-    public CustomUser findByFio(String phone) {
-        return null;
+    public CustomUser findByFio(String lastName, String firstName, String secondName,
+                                Date birthDate, String phone) {
+        logger.debug("start findByFio:" );
+        Criteria crit = createEntityCriteria();
+        logger.debug("crit ok");
+        crit.add(Restrictions.eq("cellular", phone));
+        crit.add(Restrictions.eq("lastName", lastName.toLowerCase()));
+        crit.add(Restrictions.eq("firstName", firstName.toLowerCase()));
+        crit.add(Restrictions.eq("secondName", secondName.toLowerCase()));
+        crit.add(Restrictions.eq("birthDate", birthDate));
+        logger.debug("BirthDate:" + birthDate.toString());
+        User user = (User) crit.uniqueResult();
+        logger.debug("user ok");
+        if (user == null) {
+            logger.error("user not found");
+            return null;
+        }
+        logger.debug("user not null");
+
+        //CustomUser customUser = (CustomUser) user; // - почему-то не работает - надо вспомниить теорию
+        CustomUser customUser = new CustomUser();
+        userToCustomUserFunction(customUser, user);
+
+        customUser.setUsername("test22");
+        customUser.setPassword("1234");
+
+        Role r = new Role();
+        r.setName("ROLE_USER");
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(r);
+        customUser.setAuthorities(roles);
+
+
+        /*
+        if(user!=null){
+            Hibernate.initialize(user.getUserProfiles());
+        }*/
+
+        logger.debug("custom user birthDate:" + customUser.getBirthDate().toString());
+        return customUser;
     }
 
     private void userToCustomUserFunction(CustomUser customUser, User user) {
