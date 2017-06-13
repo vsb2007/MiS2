@@ -50,6 +50,10 @@ public class User implements Serializable {
     @Column(name = "BIRTHDATE", nullable = true)
     @Type(type = "date")
     private Date birthDate;
+
+    @Column(name = "SEX")
+    private Integer sex;
+
     //private String userName;
 
     /*@Type(type = "org.hibernate.type.NumericBooleanType")

@@ -21,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,12 +81,31 @@ public class UserController {
         //return "accessDenied";
     }
 
-    /**
-     * This method handles login GET requests.
-     * If users is already logged-in and tries to goto login page again, will be redirected to list page.
-     */
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage(Model model) {
+    @RequestMapping(value = "/page2")
+    public ModelAndView innPage() {
+        ModelAndView model = new ModelAndView();
+        //model.addObject("error", "Ошибка авторизации");
+        CustomUser user = getCustomerUser();
+        model.setViewName("page2");
+        model.addObject("user", user);
+        model.addObject("years", getYears());
+        return model;
+    }
+
+    private int[] getYears() {
+        int[] years = new int[3];
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int thisYear = cal.get(Calendar.YEAR);
+        years[0] = thisYear - 1;
+        years[1] = thisYear - 2;
+        years[2] = thisYear - 3;
+        //logger.debug(years[0] + " " + years[1] + years[2]);
+        return years;
+    }
+
+    private CustomUser getCustomerUser() {
         Object principal = null;
         try {
             principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -96,8 +117,19 @@ public class UserController {
         if (principal != null && principal instanceof CustomUser) {
             user = ((CustomUser) principal);
         }
+        return user;
+    }
+
+    /**
+     * This method handles login GET requests.
+     * If users is already logged-in and tries to goto login page again, will be redirected to list page.
+     */
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String loginPage(Model model) {
+        Object principal = null;
+        CustomUser user = getCustomerUser();
         if (user != null)
-            logger.debug("Авторизован:" + user.getUsername());
+            logger.debug("Авторизован:" + user.getLastName());
         else logger.debug("Не авторизован");
         model.addAttribute("user", user);
         return "login";

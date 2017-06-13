@@ -1,11 +1,8 @@
 package bgroup.dao;
 
 import java.sql.Date;
-import java.util.List;
 
 import bgroup.model.CustomUser;
-import bgroup.model.User;
-
 
 public interface UserDao {
 

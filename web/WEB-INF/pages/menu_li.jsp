@@ -3,12 +3,12 @@
 
 
 <sec:authorize access="hasRole('ROLE_USER')">
-    <li><a href="serviceList"><i class="material-icons left">view_list</i>Направления</a></li>
+    <li><a href="page2"><i class="material-icons left">view_list</i>Документы</a></li>
 </sec:authorize>
 
-
 <sec:authorize access="hasRole('ROLE_USER')">
-    <li><a href="login"><i class="material-icons left">settings</i>Настройки</a></li>
+    <%--    <li><a href="login"><i class="material-icons left">settings</i>Настройки</a></li>
+    --%>
     <li><a href="logout"><i class="material-icons left">power_settings_new</i>Выход</a></li>
 </sec:authorize>
 <sec:authorize access="!hasRole('ROLE_USER')">

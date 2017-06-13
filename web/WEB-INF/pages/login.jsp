@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="input-field col s6 offset-s2">
                             <input type="text" class="validate" id="lastName" name="lastName" required autofocus/>
-                            <label for="lastName">LastName</label>
+                            <label for="lastName">Фамилия</label>
                             <input type="hidden" name="username" value="Test22"/>
                             <input type="hidden" name="password" value="Test22"/>
                         </div>
@@ -41,25 +41,25 @@
                     <div class="row">
                         <div class="input-field col s6 offset-s2">
                             <input type="text" class="validate" id="firstName" name="firstName" required autofocus/>
-                            <label for="firstName">FirstName</label>
+                            <label for="firstName">Имя</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6 offset-s2">
                             <input type="text" class="validate" id="secondName" name="secondName" required autofocus/>
-                            <label for="secondName">SecondName</label>
+                            <label for="secondName">Отчество</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6 offset-s2">
                             <input type="text" class="validate" id="birthDate" name="birthDate" required autofocus/>
-                            <label for="birthDate">BirthDate</label>
+                            <label for="birthDate">Дата рождения</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6 offset-s2">
                             <input type="text" class="validate" id="phone" name="phone" required autofocus/>
-                            <label for="phone">Phone</label>
+                            <label for="phone">Номер сотового телефона</label>
                         </div>
                     </div>
 
