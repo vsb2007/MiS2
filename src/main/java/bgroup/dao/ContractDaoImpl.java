@@ -3,6 +3,7 @@ package bgroup.dao;
 import bgroup.model.Contract;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,7 @@ public class ContractDaoImpl extends AbstractDao<Integer, Contract> implements C
         Session session = getSession();
         logger.debug("session:" + session.toString());
         Query query = session.createSQLQuery(
-                "SELECT  p.KeyID" +
+                "SELECT  p.KeyID as keyId" +
                         ",(SELECT text FROM lu WHERE keyid = 93114) AS \"doverennost\"" +
                         ",(SELECT text FROM lu WHERE keyid = 93114) AS \"doverennost2\"" +
                         ",(SELECT text FROM lu WHERE keyid = 93114) AS \"doverennost3\"" +
@@ -60,10 +61,13 @@ public class ContractDaoImpl extends AbstractDao<Integer, Contract> implements C
                         "AND l.patientid = p.keyid AND l.agrid = a.keyid AND NVL (l.status,0) <> 1),'') AS police" +
                         ", '' AS privils\n" +
                         ",P.CELLULAR\n" +
-                        "FROM PATIENT p WHERE p.keyid = :PATIENT_ID");
-        //.addEntity(Contract.class)
+                        "FROM PATIENT p WHERE p.keyid = :PATIENT_ID")
+                .setResultTransformer( Transformers.aliasToBean( Contract.class ) )
+                //.addEntity(Contract.class)
+                ;
         query.setParameter("PATIENT_ID", PATIENT_ID);
-        List<Object[]> result = null;
+        //List<Object[]> result = null;
+        List<Contract> result = null;
         try {
             result = query.list();
         } catch (Exception e) {
@@ -71,15 +75,20 @@ public class ContractDaoImpl extends AbstractDao<Integer, Contract> implements C
         }
         Contract contract = null;
         if (result != null && result.size() == 1) {
-            for (Object[] row : result) {
-                contract = new Contract();
-/*                for (Object obj : row) {
-                    System.out.print(obj + "::");
-                }
-  */
-                int i = 0;
-                try {
-                    contract.setKeyID(Integer.parseInt(row[i++].toString()));
+            logger.info("что-то нашли");
+            return result.get(0);
+            //for (Object[] row : result) {
+          //  for (Contract row : result) {
+                //contract = new Contract();
+            //    try {
+                 //   contract = (Contract) row[0];
+                   // for (Object obj : row) {
+                     //   System.out.print(obj + "::");
+                   // }
+
+       /*         int i = 0;
+
+                    contract.setKeyId(Integer.parseInt(row[i++].toString()));
                     contract.setDoverennost(getRowValue(row[i++]));
                     contract.setDoverennost2(getRowValue(row[i++]));
                     contract.setDoverennost3(getRowValue(row[i++]));
@@ -103,29 +112,32 @@ public class ContractDaoImpl extends AbstractDao<Integer, Contract> implements C
                     contract.setAddress4(getRowValue(row[i++]));
                     contract.setPhone(getRowValue(row[i++]));
                     contract.setPhone2(getRowValue(row[i++]));
-                    contract.setSex_name(getRowValue(row[i++]));
+                    contract.setSEX_NAME(getRowValue(row[i++]));
                     contract.setRegistrator(getRowValue(row[i++]));
-                    contract.setRegistrator2(getRowValue(row[i++]));
-                    contract.setRegistrator3(getRowValue(row[i++]));
-                    contract.setRegistrator4(getRowValue(row[i++]));
-                    contract.setRegistrator5(getRowValue(row[i++]));
-                    contract.setBirth_date(getRowValue(row[i++]));
-                    contract.setCompany(getRowValue(row[i++]));
-                    contract.setPolice(getRowValue(row[i++]));
-                    contract.setPrivils(getRowValue(row[i++]));
-                    contract.setCellular(getRowValue(row[i++]));
+                    contract.setREGISTRATOR2(getRowValue(row[i++]));
+                    contract.setREGISTRATOR3(getRowValue(row[i++]));
+                    contract.setREGISTRATOR4(getRowValue(row[i++]));
+                    contract.setREGISTRATOR5(getRowValue(row[i++]));
+                    contract.setBIRTH_DATE(getRowValue(row[i++]));
+                    contract.setCOMPANY(getRowValue(row[i++]));
+                    contract.setPOLICE(getRowValue(row[i++]));
+                    contract.setPRIVILS(getRowValue(row[i++]));
+                    contract.setCELLULAR(getRowValue(row[i++]));
                     //System.out.println("\n");
-                } catch (Exception e) {
-                    logger.error(e.toString());
-                }
-            }
+                    */
+            //    } catch (Exception e) {
+              //      logger.error(e.toString());
+                //}
+
+           // }
         } else {
             logger.info("ничего не найдено");
         }
-        return contract;
+        return null;
     }
-    private String getRowValue(Object row){
-        if (row==null) return "(не указаано)";
+
+    private String getRowValue(Object row) {
+        if (row == null) return "(не указаано)";
         else return row.toString();
     }
 }

@@ -1,82 +1,87 @@
 package bgroup.model;
 
+import javafx.beans.binding.ObjectExpression;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
+
 /**
  * Created by VSB on 08.06.2017.
  * MiS2
  */
+
 public class Contract {
     @Autowired
     private SessionFactory sessionFactory;
 
-    Integer keyID;
-    String cellular;
-    String doverennost;
-    String doverennost2;
-    String doverennost3;
-    String doverennost4;
-    String license;
-    String license2;
-    String license3;
-    String license4;
-    String fio;
-    String fio2;
-    String fio3;
-    String fio4;
-    String fio5;
-    String fio6;
-    String patnum;
-    String patnum2;
-    String region1;
-    String address;
-    String address2;
-    String address3;
-    String address4;
-    String phone;
-    String phone2;
-    String sex_name;
-    String registrator;
-    String registrator2;
-    String registrator3;
-    String registrator4;
-    String registrator5;
-    String birth_date;
+    private BigDecimal KEYID;
+
+    private String CELLULAR;
+    private String doverennost;
+    private String doverennost2;
+    private String doverennost3;
+    private String doverennost4;
+    private String license;
+    private String license2;
+    private String license3;
+    private String license4;
+    private String fio;
+    private String fio2;
+    private String fio3;
+    private String fio4;
+    private String fio5;
+    private String fio6;
+    private BigDecimal PATNUM;
+    private BigDecimal PATNUM2;
+    private String region1;
+    private String address;
+    private String address2;
+    private String address3;
+    private String address4;
+    private String PHONE;
+    private String PHONE2;
+    private String SEX_NAME;
+    private String REGISTRATOR;
+    private String REGISTRATOR2;
+    private String REGISTRATOR3;
+    private String REGISTRATOR4;
+    private String REGISTRATOR5;
+    private String BIRTH_DATE;
     //     , P.*
-    String company;
-    String police;
-    String privils;
+    private String COMPANY;
+    private String POLICE;
+    private String PRIVILS;
 
     static final Logger logger = LoggerFactory.getLogger(Contract.class);
 
-    public String getPrivils() {
-        return privils;
+    public String getPRIVILS() {
+        return PRIVILS;
     }
 
-    public void setPrivils(String privils) {
-        this.privils = privils;
+    public void setPRIVILS(String PRIVILS) {
+        this.PRIVILS = PRIVILS;
     }
 
-    public String getCellular() {
-        return cellular;
+    public String getCELLULAR() {
+        return CELLULAR;
     }
 
-    public void setCellular(String cellular) {
-        this.cellular = cellular;
+    public void setCELLULAR(String CELLULAR) {
+        this.CELLULAR = CELLULAR;
     }
 
     public Contract() {
     }
 
-    public Integer getKeyID() {
-        return keyID;
+    public BigDecimal getKEYID() {
+        return KEYID;
     }
 
-    public void setKeyID(Integer keyID) {
-        this.keyID = keyID;
+    public void setKEYID(BigDecimal keyId) {
+        this.KEYID = keyId;
     }
 
     public String getDoverennost() {
@@ -191,20 +196,20 @@ public class Contract {
         this.fio6 = fio6;
     }
 
-    public String getPatnum() {
-        return patnum;
+    public BigDecimal getPATNUM() {
+        return PATNUM;
     }
 
-    public void setPatnum(String patnum) {
-        this.patnum = patnum;
+    public void setPATNUM(BigDecimal patnum) {
+        this.PATNUM = patnum;
     }
 
-    public String getPatnum2() {
-        return patnum2;
+    public BigDecimal getPATNUM2() {
+        return PATNUM2;
     }
 
-    public void setPatnum2(String patnum2) {
-        this.patnum2 = patnum2;
+    public void setPATNUM2(BigDecimal patnum2) {
+        this.PATNUM2 = patnum2;
     }
 
     public String getRegion1() {
@@ -247,91 +252,91 @@ public class Contract {
         this.address4 = address4;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPHONE() {
+        return PHONE;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPHONE(String phone) {
+        this.PHONE = phone;
     }
 
-    public String getPhone2() {
-        return phone2;
+    public String getPHONE2() {
+        return PHONE2;
     }
 
-    public void setPhone2(String phone2) {
-        this.phone2 = phone2;
+    public void setPHONE2(String phone2) {
+        this.PHONE2 = phone2;
     }
 
-    public String getSex_name() {
-        return sex_name;
+    public String getSEX_NAME() {
+        return SEX_NAME;
     }
 
-    public void setSex_name(String sex_name) {
-        this.sex_name = sex_name;
+    public void setSEX_NAME(String SEX_NAME) {
+        this.SEX_NAME = SEX_NAME;
     }
 
-    public String getRegistrator() {
-        return registrator;
+    public String getREGISTRATOR() {
+        return REGISTRATOR;
     }
 
-    public void setRegistrator(String registrator) {
-        this.registrator = registrator;
+    public void setREGISTRATOR(String registrator) {
+        this.REGISTRATOR = registrator;
     }
 
-    public String getRegistrator2() {
-        return registrator2;
+    public String getREGISTRATOR2() {
+        return REGISTRATOR2;
     }
 
-    public void setRegistrator2(String registrator2) {
-        this.registrator2 = registrator2;
+    public void setREGISTRATOR2(String REGISTRATOR2) {
+        this.REGISTRATOR2 = REGISTRATOR2;
     }
 
-    public String getRegistrator3() {
-        return registrator3;
+    public String getREGISTRATOR3() {
+        return REGISTRATOR3;
     }
 
-    public void setRegistrator3(String registrator3) {
-        this.registrator3 = registrator3;
+    public void setREGISTRATOR3(String REGISTRATOR3) {
+        this.REGISTRATOR3 = REGISTRATOR3;
     }
 
-    public String getRegistrator4() {
-        return registrator4;
+    public String getREGISTRATOR4() {
+        return REGISTRATOR4;
     }
 
-    public void setRegistrator4(String registrator4) {
-        this.registrator4 = registrator4;
+    public void setREGISTRATOR4(String REGISTRATOR4) {
+        this.REGISTRATOR4 = REGISTRATOR4;
     }
 
-    public String getRegistrator5() {
-        return registrator5;
+    public String getREGISTRATOR5() {
+        return REGISTRATOR5;
     }
 
-    public void setRegistrator5(String registrator5) {
-        this.registrator5 = registrator5;
+    public void setREGISTRATOR5(String REGISTRATOR5) {
+        this.REGISTRATOR5 = REGISTRATOR5;
     }
 
-    public String getBirth_date() {
-        return birth_date;
+    public String getBIRTH_DATE() {
+        return BIRTH_DATE;
     }
 
-    public void setBirth_date(String birth_date) {
-        this.birth_date = birth_date;
+    public void setBIRTH_DATE(String BIRTH_DATE) {
+        this.BIRTH_DATE = BIRTH_DATE;
     }
 
-    public String getCompany() {
-        return company;
+    public String getCOMPANY() {
+        return COMPANY;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setCOMPANY(String COMPANY) {
+        this.COMPANY = COMPANY;
     }
 
-    public String getPolice() {
-        return police;
+    public String getPOLICE() {
+        return POLICE;
     }
 
-    public void setPolice(String police) {
-        this.police = police;
+    public void setPOLICE(String POLICE) {
+        this.POLICE = POLICE;
     }
 }
