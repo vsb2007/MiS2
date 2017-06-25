@@ -4,6 +4,7 @@
     <!-- Файловый аппендер -->
     <appender name="file" class="ch.qos.logback.core.FileAppender">
         <file>d:\tmp\log\logFile_MedicalPartners.log</file>
+        <!--         <file>/tmp/logFile_MiS2.log</file>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
             <fileNamePattern>logs\logFile.%d{yyyy-MM-dd}.%i.log</fileNamePattern>

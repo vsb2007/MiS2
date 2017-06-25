@@ -28,7 +28,7 @@
                 <div class="row">
                     <div class="col s6 offset-s2">
                         <button class="btn waves-effect waves-light"
-                                onClick="javascript:getContract('print-content',${years[0]});">Печать справки
+                                onClick="javascript:getAmount('print-content',${years[0]});">Печать справки
                             за ${years[0]} год.
                             <i class="material-icons right">send</i>
                         </button>
@@ -46,7 +46,7 @@
                 <div class="row">
                     <div class="col s6 offset-s2">
                         <button class="btn waves-effect waves-light"
-                                onClick="javascript:getContract('print-content',${years[1]});">Печать справки
+                                onClick="javascript:getAmount('print-content',${years[1]});">Печать справки
                             за ${years[1]} год.
                             <i class="material-icons right">send</i>
                         </button>
@@ -65,7 +65,7 @@
                 <div class="row">
                     <div class="col s6 offset-s2">
                         <button class="btn waves-effect waves-light"
-                                onClick="javascript:getContract('print-content',${years[2]});">Печать справки
+                                onClick="javascript:getAmount('print-content',${years[2]});">Печать справки
                             за ${years[2]} год.
                             <i class="material-icons right">send</i>
                         </button>
@@ -130,6 +130,32 @@
             xmlhttp.open("POST", "getContract", true);
             xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xmlhttp.send("year=" + year + "&" + token.name + "=" + token.value);
+        }
+        function getAmount(idSpan, year) {
+
+            var xmlhttp;
+            document.getElementById(idSpan).innerHTML = "loading...";
+            //document.getElementById(idSpan).value = orgDogId.value;
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById(idSpan).innerHTML = xmlhttp.responseText;
+                }
+            }
+            var token = document.getElementById("token");
+            var inn = document.getElementById("inn");
+            if (inn == null || inn.value.length == 0) {
+                document.getElementById(idSpan).innerHTML = "loading...<br> Введите ИНН";
+                return;
+            }
+            xmlhttp.open("POST", "getAmount", true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.send("year=" + year + "&" + inn.name + "=" + inn.value + "&" + token.name + "=" + token.value);
         }
     </script>
 

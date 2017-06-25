@@ -1,9 +1,11 @@
 package bgroup.controller;
 
 
-import bgroup.model.Contract;
-import bgroup.model.CustomUser;
+import bgroup.model.*;
+import bgroup.service.AmountService;
 import bgroup.service.ContractService;
+import bgroup.service.HelpFioService;
+import bgroup.service.ServDateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,12 @@ public class UserControllerAjax {
 */
     @Autowired
     ContractService contractService;
+    @Autowired
+    AmountService amountService;
+    @Autowired
+    ServDateService servDateService;
+    @Autowired
+    HelpFioService helpFioService;
 
     @ResponseBody
     @RequestMapping(value = "getContract", produces = {"text/plain; charset=UTF-8"})
@@ -54,6 +62,125 @@ public class UserControllerAjax {
         }
         logger.debug("stop Ajax");
         return responseBody;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "getAmount", produces = {"text/plain; charset=UTF-8"})
+    public String getAmount(HttpServletRequest request) {
+        String responseBody = "Error";
+        CustomUser user = getCustomerUser();
+        if (request != null) {
+            //logger.info("getDog" + request.getParameter("year"));
+            String[] dateFromTo = getDatFromTo(request);
+            String inn = request.getParameter("inn");
+            if (dateFromTo == null) {
+                return "Error: не выбран год";
+            }
+            logger.debug("dateFrom:" + dateFromTo[0]);
+            Amount amount = null;
+            try {
+                amount = amountService.getAmount(user.getKeyId(), dateFromTo[0], dateFromTo[1]);
+            } catch (Exception e) {
+                logger.error(e.toString());
+            }
+
+            logger.debug(amount.getAMOUNT());
+            ServDate servDate = servDateService.getServDate(user.getKeyId(), dateFromTo[0], dateFromTo[1]);
+            HelpFio helpFio = helpFioService.getHelpFio(user.getKeyId());
+            logger.debug(servDate.getMinservdate());
+            responseBody = getAmountText(user, amount, servDate, helpFio, inn);
+            //responseBody = getAmountText(user,null,null);
+            //logger.debug(responseBody);
+        }
+        logger.debug("stop Ajax");
+        return responseBody;
+    }
+
+    private String[] getDatFromTo(HttpServletRequest request) {
+        String[] datFromTo = null;
+        String yearString = request.getParameter("year");
+        int year = -1;
+        if (yearString != null) {
+            try {
+                year = Integer.parseInt(yearString);
+            } catch (Exception e) {
+                logger.error("Ошибка в выборе года:" + yearString);
+            }
+        }
+        if (year != -1) {
+            datFromTo = new String[2];
+            datFromTo[0] = year + "-01-01 00:00:00";
+            datFromTo[1] = (year + 1) + "-01-01 00:00:00";
+        }
+        return datFromTo;
+    }
+
+    private String getAmountText(CustomUser user, Amount amount, ServDate servDate, HelpFio helpFio, String inn) {
+        String innText = null;
+        String innText1 = null;
+        if (helpFio.getSNILS() == null) innText = inn;
+        else innText = helpFio.getSNILS();
+        if (helpFio.getSNILS1() == null) innText1 = inn;
+        else innText1 = helpFio.getSNILS1();
+        return "<pre>\n" +
+                "Приложение № 1\n" +
+                "УТВЕРЖДЕНО\n" +
+                "приказом Минздрава России\n" +
+                "и МНС России от 25 июля 2001 г. № 289/БГ-3-04/256\n" +
+                "К О Р Е Ш О К\n" +
+                "к справке об оплате медицинских услуг для представления\n" +
+                "в налоговые органы Российской Федерации №\t\n" +
+                helpFio.getN() + "\n" +
+                "Ф.И.О. налогоплательщика\t" + helpFio.getFIO() + "\n" +
+                "\n" +
+                "ИНН налогоплательщика\t" + innText + "\n" +
+                "Ф.И.О. пациента\t" + helpFio.getFIO5() + "\t, код услуги  ___1_________\t\n" +
+                "№ карты амбулаторного, стационарного больного\t" + helpFio.getPATNUM() + "\n" +
+                "\n" +
+                "Стоимость медицинских услуг\t" + amount.getAMOUNT() + "\n" +
+                "\n" +
+                "Дата оплаты \t" + servDate.getONEDATE() + "\tг.\tДата выдачи справки “\t" + helpFio.getGIVEDATE() + "\tг.\n" +
+                "\n" +
+                "Подпись лица, выдавшего справку\t\t Подпись получателя\t\n" +
+                "\n" +
+                "\n" +
+                "Министерство здравоохранения Российской Федерации\n" +
+                "       ООО «МЦСМ «Евромед» \n" +
+                " г. Омск,  ул.Съездовская, 29, корп.3\n" +
+                "    \t  ИНН 5504248024 \n" +
+                "наименование и адрес учреждения,                выдавшего справку, ИНН\n" +
+                "Лицензия " + helpFio.getLicense() + "\n" +
+                "\n" +
+                "            лицензия №, дата выдачи лицензии\n" +
+                "                на срок - бессрочно\n" +
+                "\n" +
+                "                       срок действия лицензии\n" +
+                "Министерство здравоохранения   \n" +
+                "\tОмской области\n" +
+                "кем выдана лицензия\n" +
+                "\n" +
+                "С П Р А В К А\n" +
+                "об оплате медицинских услуг для представления\n" +
+                "в налоговые органы Российской Федерации №\t\n" +
+                helpFio.getN2() + "\n" +
+                "\n" +
+                "от \t" + helpFio.getGIVEDATE2() + "\n" +
+                "Выдана налогоплательщику (Ф.И.О.)\t" + helpFio.getFIO3() + "\n" +
+                "\n" +
+                "\n" +
+                "ИНН налогоплательщика\t" + innText1 + "\n" +
+                "В том, что он (она) оплатил(а) медицинские услуги стоимостью:\n" +
+                amount.getAMOUNT2() + "\n" +
+                "(сумма прописью)\n" +
+                "Код услуг:\t1\t\n" +
+                "оказанные: ему (ей), супруге(у), сыну (дочери), матери (отцу) \t" + helpFio.getFIO4() + "\n" +
+                "(нужное подчеркнуть)\n" +
+                "Дата оплаты \t" + servDate.getONEDATE2() + "\tг.\t\n" +
+                "Фамилия, имя, отчество и должность лица, выдавшего справку\t- экономист\n" +
+                "\n" +
+                "№ телефона (\t3812\t)\t331-402\t[registrator]\n" +
+                "\tкод\t\t\t\n" +
+                "печать\t(подпись лица, выдавшего справку)\n</pre>";
     }
 
     private String getContractText(Contract contract) {

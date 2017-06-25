@@ -19,7 +19,7 @@ public class ContractDaoImpl extends AbstractDao<Integer, Contract> implements C
     static final Logger logger = LoggerFactory.getLogger(ContractDaoImpl.class);
 
     @Override
-    public Contract getDogList(int PATIENT_ID) {
+    public Contract getContract(int PATIENT_ID) {
         logger.debug("Start getDog");
 
         Session session = getSession();

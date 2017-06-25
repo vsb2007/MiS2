@@ -1,10 +1,7 @@
 package bgroup.model;
 
-import javafx.beans.binding.ObjectExpression;
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 
@@ -14,8 +11,6 @@ import java.math.BigDecimal;
  */
 
 public class Contract {
-    @Autowired
-    private SessionFactory sessionFactory;
 
     private BigDecimal KEYID;
 

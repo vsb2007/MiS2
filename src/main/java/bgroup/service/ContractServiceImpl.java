@@ -1,6 +1,5 @@
 package bgroup.service;
 
-import bgroup.controller.UserControllerAjax;
 import bgroup.model.Contract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +23,6 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public Contract getDog(int patiendId) {
         logger.debug("ContractServiceImpl:" + patiendId);
-        return contractDao.getDogList(patiendId);
+        return contractDao.getContract(patiendId);
     }
 }

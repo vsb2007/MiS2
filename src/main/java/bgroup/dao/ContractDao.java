@@ -7,5 +7,5 @@ import bgroup.model.Contract;
  * MiS2
  */
 public interface ContractDao {
-    public Contract getDogList(int PATIENT_ID);
+    public Contract getContract(int PATIENT_ID);
 }
