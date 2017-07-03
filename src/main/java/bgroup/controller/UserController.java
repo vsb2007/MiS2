@@ -2,6 +2,7 @@ package bgroup.controller;
 
 
 import bgroup.model.CustomUser;
+import bgroup.model.Role;
 import bgroup.service.CustomUserService;
 import bgroup.service.CustomUserServiceImpl;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,13 +53,25 @@ public class UserController {
      * This method will list all existing users.
      */
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.GET)
-    public String indexPage(Model model) {
+    public ModelAndView indexPage() {
         /*Map<String,String> param = new HashMap<String, String>();
         param.put("error","error");
         model.addAttribute("param",param);
         return "login";*/
-        return "index";
+        ModelAndView model = new ModelAndView();
+        CustomUser user = getCustomerUser();
+        model.addObject("user", user);
+        if (user != null) {
+            if (user.isUserHasRole("ROLE_USER_PRE")) {
+                model.setViewName("page1");
+                return model;
+            }
+        }
+        model.setViewName("index");
+        return model;
     }
+
+
 /*
     @RequestMapping(value = {"userslist"}, method = RequestMethod.GET)
     public String listUsers(ModelMap model) {

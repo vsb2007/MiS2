@@ -152,4 +152,12 @@ public class CustomUser extends User implements UserDetails {
     public void setBirthDate(Date birthDate) {
         super.setBirthDate(birthDate);
     }
+
+    public boolean isUserHasRole(String roleName) {
+        for (Role role : this.authorities) {
+            if (role.getName().equals(roleName)) return true;
+        }
+        return false;
+    }
+
 }

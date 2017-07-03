@@ -140,6 +140,4 @@ public class User implements Serializable {
                 + ", firstName=" + firstName + ", secondName=" + secondName
                 + ", birthDay=" + birthDate + "]";
     }
-
-
 }

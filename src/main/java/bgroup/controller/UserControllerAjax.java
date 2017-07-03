@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by VSB on 10.02.2017.
@@ -27,18 +31,6 @@ import javax.servlet.http.HttpServletRequest;
 public class UserControllerAjax {
     static final Logger logger = LoggerFactory.getLogger(UserControllerAjax.class);
 
-    /*
-    @RequestMapping(value = "updatePassword", produces = {"text/plain; charset=UTF-8"})
-    @ResponseBody
-    public String updatePassword(UsernamePasswordAuthenticationToken principal, HttpServletRequest request) {
-        String responseBody = "Error";
-        if (userService.changePassword(request.getParameter("id"))) {
-            return "Пароль поменяли";
-        }
-
-        return "Ошибка смены пароля";
-    }
-*/
     @Autowired
     ContractService contractService;
     @Autowired
@@ -62,6 +54,27 @@ public class UserControllerAjax {
         }
         logger.debug("stop Ajax");
         return responseBody;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "checkCode", produces = {"text/plain; charset=UTF-8"})
+    public String checkCode(HttpServletRequest request) {
+        String responseBody = "-1";
+        if (addRole()) responseBody = "1";
+        logger.debug("checkCode: in");
+        return responseBody;
+    }
+
+    private boolean addRole() {
+        CustomUser user = getCustomerUser();
+        Role r = new Role();
+        r.setName("ROLE_USER");
+        List<Role> roles = user.getAuthorities();
+        roles.add(r);
+        //user.setAuthorities(roles);
+        Authentication auth = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        return true;
     }
 
     @ResponseBody

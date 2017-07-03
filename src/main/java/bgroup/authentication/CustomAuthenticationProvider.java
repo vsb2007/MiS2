@@ -60,31 +60,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy");
         Date birthDate = null;
         try {
-            //java.sql.Date sql = new java.sql.Date(parsed.getTime());
             java.util.Date birthDateUtil = df.parse(birthDateString);
             birthDate = new java.sql.Date(birthDateUtil.getTime());
-            logger.debug("birthDateUtil:" + birthDateUtil.toString());
-            logger.debug("birthDate:" + birthDate.toString());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.toString());
             return new UsernamePasswordAuthenticationToken(null, password, null);
         }
-
-        //CustomUser user = userService.findUserByPhone(phone);
         CustomUser user = null;
-
-        user = userService.findUserByFio(lastName,firstName,secondName,birthDate,phone);
-
+        user = userService.findUserByFio(lastName, firstName, secondName, birthDate, phone);
         if (user == null) {
             logger.error("User not found.");
             //throw new BadCredentialsException("Username !!! not found.");
         }
-/*
-        if (!password.equals(user.getPassword())) {
-            logger.error("Wrong Password");
-            throw new BadCredentialsException("Wrong password.");
-        }
-*/
         Collection<? extends GrantedAuthority> authorities = null;
         if (user != null)
             authorities = user.getAuthorities();

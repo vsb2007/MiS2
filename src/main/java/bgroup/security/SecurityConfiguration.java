@@ -79,7 +79,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().accessDeniedPage("/Access_Denied")
                 */
-                .antMatchers("/").access("hasRole('ROLE_USER')")
+                .antMatchers("/page1").access("hasRole('ROLE_USER_PRE')")
+                .antMatchers("/checkCode").access("hasRole('ROLE_USER_PRE')")
+                .antMatchers("/").access("hasRole('ROLE_USER_PRE')")
                 //.antMatchers("/").permitAll()
                 .antMatchers("/**/").access("hasRole('ROLE_USER')")
                 .and()

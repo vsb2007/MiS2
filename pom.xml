@@ -133,7 +133,6 @@
             <type>jar</type>
             <version>${ch.commons.charset.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>
