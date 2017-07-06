@@ -71,7 +71,7 @@ public class UserControllerAjax {
         r.setName("ROLE_USER");
         List<Role> roles = user.getAuthorities();
         roles.add(r);
-        //user.setAuthorities(roles);
+        user.setAuthorities(roles);
         Authentication auth = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
         return true;

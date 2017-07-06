@@ -126,7 +126,6 @@ public class UserController {
         } catch (BadCredentialsException ex) {
 
         }
-        //Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = null;
         if (principal != null && principal instanceof CustomUser) {
             user = ((CustomUser) principal);
