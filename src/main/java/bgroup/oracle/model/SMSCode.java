@@ -1,10 +1,8 @@
-package bgroup.model;
+package bgroup.oracle.model;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Date;
 
 /**
  * Created by VSB on 03.07.2017.

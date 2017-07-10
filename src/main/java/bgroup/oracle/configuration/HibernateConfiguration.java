@@ -1,4 +1,4 @@
-package bgroup.configuration;
+package bgroup.oracle.configuration;
 
 import java.util.Properties;
 
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({ "bgroup.configuration" })
+@ComponentScan({ "bgroup.oracle.configuration" })
 @PropertySource(value = { "classpath:jdbc.properties" })
 public class HibernateConfiguration {
 
@@ -26,10 +26,10 @@ public class HibernateConfiguration {
     private Environment environment;
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory() {
+    protected LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[] { "bgroup.model" });
+        sessionFactory.setPackagesToScan(new String[] { "bgroup.oracle.model" });
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
      }
@@ -55,7 +55,7 @@ public class HibernateConfiguration {
     
 	@Bean
     @Autowired
-    public HibernateTransactionManager transactionManager(SessionFactory s) {
+    protected HibernateTransactionManager transactionManager(SessionFactory s) {
        HibernateTransactionManager txManager = new HibernateTransactionManager();
        txManager.setSessionFactory(s);
        return txManager;

@@ -1,6 +1,6 @@
 package bgroup.service;
 
-import bgroup.model.CustomUser;
+import bgroup.oracle.model.CustomUser;
 
 import java.sql.Date;
 

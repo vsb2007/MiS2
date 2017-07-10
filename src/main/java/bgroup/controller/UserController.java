@@ -1,23 +1,19 @@
 package bgroup.controller;
 
 
-import bgroup.model.CustomUser;
-import bgroup.model.Role;
-import bgroup.service.CustomUserService;
-import bgroup.service.CustomUserServiceImpl;
+import bgroup.oracle.model.CustomUser;
+import bgroup.oracle.model.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,33 +21,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @Controller
 public class UserController {
     static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    // @Autowired
-    //CustomUserService userService;
-
-
-    /* @Autowired
-     UserProfileService userProfileService;
- */
     @Autowired
     MessageSource messageSource;
 
-    /*@Autowired
-    PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
-    */
-    //@Autowired
-    //AuthenticationTrustResolver authenticationTrustResolver;
-
-    /**
-     * This method will list all existing users.
-     */
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.GET)
     public ModelAndView indexPage() {
         /*Map<String,String> param = new HashMap<String, String>();

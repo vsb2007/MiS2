@@ -5,8 +5,8 @@ package bgroup.service;
  * MiS3
  */
 
-import bgroup.dao.UserDAOImpl;
-import bgroup.model.CustomUser;
+import bgroup.oracle.dao.UserDAOImpl;
+import bgroup.oracle.model.CustomUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Date;
 
 @Service("customUserService")
-@Transactional
+@Transactional("transactionManager")
 public class CustomUserServiceImpl implements CustomUserService {
     static final Logger logger = LoggerFactory.getLogger(CustomUserServiceImpl.class);
 

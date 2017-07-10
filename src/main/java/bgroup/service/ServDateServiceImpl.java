@@ -1,7 +1,7 @@
 package bgroup.service;
 
-import bgroup.dao.ServDateDaoImpl;
-import bgroup.model.ServDate;
+import bgroup.oracle.dao.ServDateDaoImpl;
+import bgroup.oracle.model.ServDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  * MiS2
  */
 @Service("servDateService")
-@Transactional
+@Transactional("transactionManager")
 public class ServDateServiceImpl implements ServDateService {
     static final Logger logger = LoggerFactory.getLogger(ServDateServiceImpl.class);
     @Autowired

@@ -1,4 +1,4 @@
-package bgroup.model;
+package bgroup.oracle.model;
 
 /**
  * Created by VSB on 15.05.2017.
@@ -9,7 +9,6 @@ package bgroup.model;
 import java.sql.Date;
 import java.util.List;
 
-import bgroup.configuration.AppConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;

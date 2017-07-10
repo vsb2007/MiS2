@@ -1,6 +1,6 @@
-package bgroup.dao;
+package bgroup.oracle.dao;
 
-import bgroup.model.Amount;
+import bgroup.oracle.model.Amount;
 
 /**
  * Created by VSB on 13.06.2017.

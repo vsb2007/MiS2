@@ -1,4 +1,4 @@
-package bgroup.model;
+package bgroup.oracle.model;
 
 import com.cloudhopper.commons.charset.CharsetUtil;
 import com.cloudhopper.smpp.SmppBindType;
@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
 /**
  * Created by VSB on 30.01.2017.
@@ -83,7 +82,7 @@ public class SmsSender {
 
     public boolean sendSms(String phoneNumber, String smsText) {
         DefaultSmppClient client = new DefaultSmppClient();
-
+        phoneNumber = checkPhoneNumber(phoneNumber);
         SmppSessionConfiguration sessionConfig = new SmppSessionConfiguration();
 
         SmsSender smsSender = null;
@@ -94,7 +93,7 @@ public class SmsSender {
             logger.error("Exception initialising SMPPSender " + e);
         }
 
-        if (smsSender==null){
+        if (smsSender == null) {
             logger.error("SMS канал не создан");
         }
 
@@ -157,27 +156,39 @@ public class SmsSender {
         return true;
     }
 
+    private String checkPhoneNumber(String phoneNumber) {
+        char[] digits = phoneNumber.toCharArray();
+        if (digits[0] == '8') {
+            digits[0] = '7';
+            phoneNumber = String.valueOf(digits);
+            logger.info("change number to:" + phoneNumber);
+        } else
+            logger.info("phone number:" + phoneNumber);
+        return phoneNumber;
+    }
+
     private static SubmitSm createSubmitSm(String src, String dst, String text, String charset) throws SmppInvalidArgumentException {
         SubmitSm sm = new SubmitSm();
 
         // For alpha numeric will use
         // TON=5
         // NPI=0
-        sm.setSourceAddress(new Address((byte)5, (byte)0, src));
+        sm.setSourceAddress(new Address((byte) 5, (byte) 0, src));
 
         // For national numbers will use
         // TON=1
         // NPI=1
-        sm.setDestAddress(new Address((byte)1, (byte)1, dst));
+        sm.setDestAddress(new Address((byte) 1, (byte) 1, dst));
 
         // Set datacoding to UCS-2
-        sm.setDataCoding((byte)8);
+        sm.setDataCoding((byte) 8);
 
         // Encode text
         sm.setShortMessage(CharsetUtil.encode(text, charset));
 
         return sm;
     }
+
     /**
      * Gets a property and converts it into byte.
      */

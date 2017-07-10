@@ -1,6 +1,6 @@
-package bgroup.dao;
+package bgroup.oracle.dao;
 
-import bgroup.model.SMSCode;
+import bgroup.oracle.model.SMSCode;
 
 /**
  * Created by VSB on 13.06.2017.

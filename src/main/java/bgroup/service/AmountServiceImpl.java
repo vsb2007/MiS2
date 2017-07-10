@@ -1,9 +1,7 @@
 package bgroup.service;
 
-import bgroup.dao.AmountDaoImpl;
-import bgroup.dao.ContractDaoImpl;
-import bgroup.model.Amount;
-import bgroup.model.Contract;
+import bgroup.oracle.dao.AmountDaoImpl;
+import bgroup.oracle.model.Amount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  * MiS2
  */
 @Service("amountService")
-@Transactional
+@Transactional("transactionManager")
 public class AmountServiceImpl implements AmountService {
     static final Logger logger = LoggerFactory.getLogger(AmountServiceImpl.class);
     @Autowired

@@ -6,14 +6,13 @@ package bgroup.authentication;
  */
 
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.sql.Date;
 
+import bgroup.oracle.model.SmsSender;
 import bgroup.service.CustomUserService;
-import bgroup.service.CustomUserServiceImpl;
-import bgroup.model.CustomUser;
+import bgroup.oracle.model.CustomUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,8 +72,16 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             //throw new BadCredentialsException("Username !!! not found.");
         }
         Collection<? extends GrantedAuthority> authorities = null;
-        if (user != null)
+        if (user != null) {
             authorities = user.getAuthorities();
+            try {
+                SmsSender smsSender = new SmsSender();
+                smsSender.sendSms(user.getCellular(),"код авторизации");
+            } catch (Exception e) {
+                user = null;
+                logger.error("Нельзя отправить смс");
+            }
+        }
 
         return new UsernamePasswordAuthenticationToken(user, password, authorities);
     }

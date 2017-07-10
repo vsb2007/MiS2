@@ -1,7 +1,6 @@
-package bgroup.dao;
+package bgroup.oracle.dao;
 
-import bgroup.model.Contract;
-import bgroup.model.ServDate;
+import bgroup.oracle.model.ServDate;
 
 /**
  * Created by VSB on 13.06.2017.

@@ -1,13 +1,10 @@
-package bgroup.model;
+package bgroup.oracle.model;
 
 /**
  * Created by VSB on 15.05.2017.
  * MiS3
  */
 
-import java.util.List;
-
-import bgroup.configuration.AppConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;

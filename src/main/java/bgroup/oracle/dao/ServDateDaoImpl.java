@@ -1,7 +1,6 @@
-package bgroup.dao;
+package bgroup.oracle.dao;
 
-import bgroup.model.Contract;
-import bgroup.model.ServDate;
+import bgroup.oracle.model.ServDate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.transform.Transformers;

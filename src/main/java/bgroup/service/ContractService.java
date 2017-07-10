@@ -1,6 +1,6 @@
 package bgroup.service;
 
-import bgroup.model.Contract;
+import bgroup.oracle.model.Contract;
 
 /**
  * Created by VSB on 13.06.2017.

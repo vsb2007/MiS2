@@ -1,4 +1,4 @@
-package bgroup.dao;
+package bgroup.oracle.dao;
 
 import java.io.Serializable;
 

@@ -1,7 +1,7 @@
-package bgroup.dao;
+package bgroup.oracle.dao;
 
-import bgroup.model.Contract;
-import bgroup.model.HelpFio;
+import bgroup.oracle.model.Contract;
+import bgroup.oracle.model.HelpFio;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.transform.Transformers;

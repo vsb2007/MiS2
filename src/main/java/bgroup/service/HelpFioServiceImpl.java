@@ -1,9 +1,7 @@
 package bgroup.service;
 
-import bgroup.dao.ContractDaoImpl;
-import bgroup.dao.HelpFioDaoImpl;
-import bgroup.model.Contract;
-import bgroup.model.HelpFio;
+import bgroup.oracle.dao.HelpFioDaoImpl;
+import bgroup.oracle.model.HelpFio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  * MiS2
  */
 @Service("helpFioService")
-@Transactional
+@Transactional("transactionManager")
 public class HelpFioServiceImpl implements HelpFioService {
     static final Logger logger = LoggerFactory.getLogger(HelpFioServiceImpl.class);
     @Autowired

@@ -1,15 +1,9 @@
-package bgroup.dao;
+package bgroup.oracle.dao;
 
-import bgroup.model.Amount;
-import bgroup.model.SMSCode;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.transform.Transformers;
+import bgroup.oracle.model.SMSCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Created by VSB on 13.06.2017.

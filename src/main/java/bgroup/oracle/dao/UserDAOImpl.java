@@ -1,15 +1,13 @@
-package bgroup.dao;
+package bgroup.oracle.dao;
 
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 
-import bgroup.configuration.AppConfig;
-import bgroup.model.CustomUser;
-import bgroup.model.Role;
-import bgroup.model.User;
+import bgroup.oracle.model.CustomUser;
+import bgroup.oracle.model.Role;
+import bgroup.oracle.model.User;
 import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
