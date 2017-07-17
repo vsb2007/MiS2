@@ -1,15 +1,16 @@
 package bgroup.mysql.configuration;
 
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.access.method.P;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -17,15 +18,15 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({ "bgroup.mysql.configuration" })
-@PropertySource(value = { "classpath:jdbc.properties" })
+@ComponentScan({ "bgroup.mysql" })
+@PropertySource(value = { "classpath:jdbc.mysql.properties" })
 public class HibernateConfigurationMysql {
-
+    static final Logger logger = LoggerFactory.getLogger(HibernateConfigurationMysql.class);
     @Autowired
     private Environment environment;
 
-    @Bean(name = "sessionFactory")
-    protected LocalSessionFactoryBean sessionFactory() {
+    @Bean(name = "sessionFactoryMysql")
+    protected LocalSessionFactoryBean sessionFactoryMysql() {
         LocalSessionFactoryBean sessionFactoryMysql = new LocalSessionFactoryBean();
         sessionFactoryMysql.setDataSource(dataSourceMysql());
         sessionFactoryMysql.setPackagesToScan(new String[] { "bgroup.mysql.model" });
@@ -33,8 +34,8 @@ public class HibernateConfigurationMysql {
         return sessionFactoryMysql;
      }
 
-    @Bean
-    public DataSource dataSourceMysql() {
+    @Bean(name="dataSourceMysql")
+    protected DataSource dataSourceMysql() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.mysql.driverClassName"));
         dataSource.setUrl(environment.getRequiredProperty("jdbc.mysql.url"));
@@ -52,14 +53,18 @@ public class HibernateConfigurationMysql {
         return properties;        
     }
 
-
 	@Bean
-    @Autowired
+    @Autowired()
     protected HibernateTransactionManager transactionManagerMysql(SessionFactory s) {
        HibernateTransactionManager txManager = new HibernateTransactionManager();
        txManager.setSessionFactory(s);
        return txManager;
     }
-
+/*
+    @Autowired
+    public ProgramaSgteDAOHibernate(@Qualifier("sessionFactory3") SessionFactory sessionFactory) {
+        super(sessionFactory);
+    }
+    */
 }
 

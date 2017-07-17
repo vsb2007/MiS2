@@ -1,4 +1,4 @@
-package bgroup.oracle.model;
+package bgroup.mysql.model;
 
 import com.cloudhopper.commons.charset.CharsetUtil;
 import com.cloudhopper.smpp.SmppBindType;
@@ -16,6 +16,7 @@ import com.cloudhopper.smpp.type.UnrecoverablePduException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * Created by VSB on 30.01.2017.
  * medicalpartners
  */
-@Repository("smsSender")
+@Service("smsSender")
 public class SmsSender {
     static Logger logger = LoggerFactory.getLogger(SmsSender.class);
     Properties properties = new Properties();
@@ -80,11 +81,10 @@ public class SmsSender {
         return password;
     }
 
-    public boolean sendSms(String phoneNumber, String smsText) {
+    public synchronized boolean sendSms(String phoneNumber, String smsText) {
         DefaultSmppClient client = new DefaultSmppClient();
         phoneNumber = checkPhoneNumber(phoneNumber);
         SmppSessionConfiguration sessionConfig = new SmppSessionConfiguration();
-
         SmsSender smsSender = null;
         try {
             smsSender = new SmsSender();
@@ -92,48 +92,32 @@ public class SmsSender {
             e.printStackTrace();
             logger.error("Exception initialising SMPPSender " + e);
         }
-
         if (smsSender == null) {
             logger.error("SMS канал не создан");
         }
-
         sessionConfig.setType(SmppBindType.TRANSCEIVER);
         sessionConfig.setHost(smsSender.getIpAddress());
         sessionConfig.setPort(smsSender.getPort());
-        // T-Service
-        //sessionConfig.setSystemId("sm717919474");
-        //sessionConfig.setPassword("qiSNNDQ3");
         // EUROMED
         sessionConfig.setSystemId(smsSender.getSystemId());
         sessionConfig.setPassword(smsSender.getPassword());
-
         String srcSender = smsSender.getSrcAddress();
-
         try {
             SmppSession session = client.bind(sessionConfig);
-
             SubmitSm sm = createSubmitSm(srcSender, phoneNumber, smsText, "UCS-2");
-
-            logger.debug("Try to send message");
-
             session.submit(sm, TimeUnit.SECONDS.toMillis(60));
-
+            /*
             logger.debug("Message sent");
-
             logger.debug("Wait 10 seconds");
-
             TimeUnit.SECONDS.sleep(10);
-
             logger.debug("Destroy session");
-
+            */
             session.close();
             session.destroy();
-
-            logger.debug("Destroy sms client");
-
+            //logger.debug("Destroy sms client");
+            logger.debug("Message sent to: " + phoneNumber + " text:" + smsText);
             client.destroy();
-
-            logger.debug("Bye sms!");
+            //logger.debug("Bye sms!");
         } catch (SmppTimeoutException ex) {
             logger.error(ex.toString());
             return false;
@@ -162,8 +146,9 @@ public class SmsSender {
             digits[0] = '7';
             phoneNumber = String.valueOf(digits);
             logger.info("change number to:" + phoneNumber);
-        } else
-            logger.info("phone number:" + phoneNumber);
+        } else {
+            //logger.info("phone number:" + phoneNumber);
+        }
         return phoneNumber;
     }
 

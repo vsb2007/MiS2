@@ -1,6 +1,7 @@
 package bgroup.controller;
 
 
+import bgroup.mysql.service.SmsCodeService;
 import bgroup.oracle.model.*;
 import bgroup.service.AmountService;
 import bgroup.service.ContractService;
@@ -38,6 +39,8 @@ public class UserControllerAjax {
     ServDateService servDateService;
     @Autowired
     HelpFioService helpFioService;
+    @Autowired
+    SmsCodeService smsCodeService;
 
     @ResponseBody
     @RequestMapping(value = "getContract", produces = {"text/plain; charset=UTF-8"})
@@ -59,8 +62,11 @@ public class UserControllerAjax {
     @RequestMapping(value = "checkCode", produces = {"text/plain; charset=UTF-8"})
     public String checkCode(HttpServletRequest request) {
         String responseBody = "-1";
-        if (addRole()) responseBody = "1";
-        logger.debug("checkCode: in");
+        CustomUser user = getCustomerUser();
+        if (smsCodeService.checkSmsCode(request,user)){
+            addRole();
+            responseBody = "1";
+        }
         return responseBody;
     }
 

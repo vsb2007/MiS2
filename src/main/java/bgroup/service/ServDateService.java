@@ -1,6 +1,5 @@
 package bgroup.service;
 
-import bgroup.oracle.model.Contract;
 import bgroup.oracle.model.ServDate;
 
 /**

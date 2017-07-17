@@ -10,7 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.sql.Date;
 
-import bgroup.oracle.model.SmsSender;
+import bgroup.mysql.model.SmsCode;
+import bgroup.mysql.model.SmsSender;
+import bgroup.mysql.service.SmsCodeService;
 import bgroup.service.CustomUserService;
 import bgroup.oracle.model.CustomUser;
 import org.slf4j.Logger;
@@ -30,6 +32,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     private CustomUserService userService;
+    @Autowired
+    SmsSender smsSender;
+    @Autowired
+    SmsCodeService smsCodeService;
 
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
@@ -75,8 +81,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         if (user != null) {
             authorities = user.getAuthorities();
             try {
-                SmsSender smsSender = new SmsSender();
-                smsSender.sendSms(user.getCellular(),"код авторизации");
+                //smsSender = new SmsSender();
+                SmsCode smsCode = new SmsCode(user.getCellular());
+                smsSender.sendSms(user.getCellular(),"код авторизации " + smsCode.getCode());
+                smsCodeService.saveSmsCodeToDb(smsCode);
             } catch (Exception e) {
                 user = null;
                 logger.error("Нельзя отправить смс");

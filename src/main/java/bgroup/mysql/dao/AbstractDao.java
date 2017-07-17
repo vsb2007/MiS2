@@ -1,14 +1,13 @@
-package bgroup.oracle.dao;
-
-import java.io.Serializable;
-
-import java.lang.reflect.ParameterizedType;
+package bgroup.mysql.dao;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 
 public abstract class AbstractDao<PK extends Serializable, T> {
 	
@@ -20,11 +19,11 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 	}
 	
 	@Autowired
-	@Qualifier("sessionFactory")
-	private SessionFactory sessionFactory;
+	@Qualifier("sessionFactoryMysql")
+	private SessionFactory sessionFactoryMysql;
 
 	protected Session getSession(){
-		return sessionFactory.getCurrentSession();
+		return sessionFactoryMysql.getCurrentSession();
 	}
 
 	@SuppressWarnings("unchecked")
