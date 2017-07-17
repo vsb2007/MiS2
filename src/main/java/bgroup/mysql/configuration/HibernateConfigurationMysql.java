@@ -19,7 +19,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({ "bgroup.mysql" })
-@PropertySource(value = { "classpath:jdbc.mysql.properties" })
+@PropertySource(value = { "classpath:jdbc.properties" })
 public class HibernateConfigurationMysql {
     static final Logger logger = LoggerFactory.getLogger(HibernateConfigurationMysql.class);
     @Autowired
