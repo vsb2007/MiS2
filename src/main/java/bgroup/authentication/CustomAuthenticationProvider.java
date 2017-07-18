@@ -83,10 +83,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             try {
                 //smsSender = new SmsSender();
                 SmsCode smsCode = new SmsCode(user.getCellular());
-                smsSender.sendSms(user.getCellular(),"код авторизации " + smsCode.getCode());
+                //smsSender.sendSms(user.getCellular(),"код авторизации " + smsCode.getCode());
                 smsCodeService.saveSmsCodeToDb(smsCode);
             } catch (Exception e) {
                 user = null;
+                e.printStackTrace();
                 logger.error("Нельзя отправить смс");
             }
         }

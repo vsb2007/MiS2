@@ -10,7 +10,7 @@
 <main>
     <div class="container">
         <%-- <sec:authorize access="!hasRole('ROLE_LOGIN')"> --%>
-        <sec:authorize access="!hasRole('ROLE_USER')">
+        <sec:authorize access="!hasRole('ROLE_USER_PRE')">
             <div class="row">
                 <c:url var="loginUrl" value="/login"/>
                 <form action="${loginUrl}" method="post" class="">
@@ -85,6 +85,10 @@
                     </div>
                 </form>
             </div>
+        </sec:authorize>
+
+        <sec:authorize access="!hasRole('ROLE_USER') && hasRole('ROLE_USER_PRE')">
+            <%@ include file="page1.jsp" %>
         </sec:authorize>
         <sec:authorize access="hasRole('ROLE_USER')">
             <div class="row">

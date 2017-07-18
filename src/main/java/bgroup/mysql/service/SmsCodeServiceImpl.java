@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,20 +32,40 @@ public class SmsCodeServiceImpl implements SmsCodeService {
     @Override
     public boolean checkSmsCode(int code, String phoneNumber) {
         List<SmsCode> smsCodeList = getSmsCodeByPhone(phoneNumber);
+        if (smsCodeList == null) return false;
+        boolean flag = false;
         for (SmsCode smsCode : smsCodeList) {
             if (smsCode.getCode() == code) {
-                smsCode.setCheckOut(true);
-                setAllCodesToDisable(smsCodeList);
-                return true;
+                try {
+                    smsCode.setCheckOut(true);
+                    smsCode.setDateChecked(new Date());
+                    //setAllCodesToDisable(smsCodeList);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+                flag = true;
+                break;
             }
+        }
+        if (flag) {
+            setAllCodesToDisable(smsCodeList);
+            return true;
         }
         return false;
     }
 
     private void setAllCodesToDisable(List<SmsCode> smsCodeList) {
         for (SmsCode smsCode : smsCodeList) {
-            smsCode.setDisabled(true);
-            smsCodeDao.saveSmsCodeToDB(smsCode);
+            try {
+                smsCode.setDisabled(true);
+                //smsCode.setCheckOut(smsCode.getCheckOut());
+                logger.debug("getCheckOut " + smsCode.isCheckOut());
+                //smsCodeDao.saveSmsCodeToDB(smsCode);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return;
+            }
         }
     }
 

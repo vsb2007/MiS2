@@ -19,18 +19,24 @@ public class SmsCodeDaoImpl extends AbstractDao<Integer, SmsCode> implements Sms
 
     @Override
     public List<SmsCode> getSMSCodeListByPhone(String phoneNumber) {
-        Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("phoneNumber", phoneNumber));
-        criteria.add(Restrictions.eq("isDisabled", false));
-        criteria.add(Restrictions.eq("isCheckOut", false));
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);//To avoid duplicates.
-        List<SmsCode> serviceLists = (List<SmsCode>) criteria.list();
-        return serviceLists;
+        try {
+            Criteria criteria = createEntityCriteria();
+            criteria.add(Restrictions.eq("phoneNumber", phoneNumber));
+            criteria.add(Restrictions.eq("isDisabled", false));
+            criteria.add(Restrictions.eq("isCheckOut", false));
+            //criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);//To avoid duplicates.
+            List<SmsCode> serviceLists = (List<SmsCode>) criteria.list();
+            return serviceLists;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public boolean saveSmsCodeToDB(SmsCode smsCode) {
         try {
+            logger.info(smsCode.getId() + " " + smsCode.getPhoneNumber() + " " + smsCode.isCheckOut() + " " + smsCode.isDisabled());
             persist(smsCode);
         } catch (Exception e) {
             logger.error(e.toString());

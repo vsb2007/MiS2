@@ -138,7 +138,7 @@ public class UserController {
             //persistentTokenBasedRememberMeServices.logout(request, response, auth);
             SecurityContextHolder.getContext().setAuthentication(null);
         }
-        return "redirect:/login?logout";
+        return "redirect:/login";
     }
 
     /**

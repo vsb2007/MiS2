@@ -1,8 +1,9 @@
 package bgroup.mysql.model;
 
 
-
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotEmpty;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,25 +24,36 @@ public class SmsCode implements Serializable {
     @Column(name = "phoneNumber")
     private String phoneNumber;
     @Column(name = "code")
-    private int code;
+    private Integer code;
+    //@Type(type = "org.hibernate.type.TimestampType")
+    //@Temporal(TemporalType.TIMESTAMP)
+
+    @Column(name = "dateChecked")
+    private Date dateChecked;
     @Type(type = "org.hibernate.type.NumericBooleanType")
-    @Column(name = "isDisabled", columnDefinition = "BIT default 0")
+    @Column(name = "isDisabled", columnDefinition = "INT default 0")
     private boolean isDisabled;
     @Type(type = "org.hibernate.type.NumericBooleanType")
-    @Column(name = "isCheckOut", columnDefinition = "BIT default 0")
+    @Column(name = "isCheckOut", columnDefinition = "INT default 0")
     private boolean isCheckOut;
-    //@Temporal(TemporalType.TIMESTAMP)
-    //private DateTime dateChecked;
 
     public SmsCode(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-        this.code = (int)(Math.random()*1000);
+        this.code = (int) (Math.random() * 1000);
         this.isDisabled = false;
         this.isCheckOut = false;
-        //this.dateChecked = new DateTime();
+        this.dateChecked = null;
     }
 
     public SmsCode() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getPhoneNumber() {
@@ -52,11 +64,11 @@ public class SmsCode implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -76,13 +88,11 @@ public class SmsCode implements Serializable {
         isCheckOut = checkOut;
     }
 
-   /*
-   public DateTime getDateChecked() {
+    public Date getDateChecked() {
         return dateChecked;
     }
 
-    public void setDateChecked(DateTime dateChecked) {
+    public void setDateChecked(Date dateChecked) {
         this.dateChecked = dateChecked;
     }
-    */
 }
