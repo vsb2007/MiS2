@@ -142,12 +142,16 @@ public class SmsSender {
 
     private String checkPhoneNumber(String phoneNumber) {
         char[] digits = phoneNumber.toCharArray();
-        if (digits[0] == '8') {
-            digits[0] = '7';
-            phoneNumber = String.valueOf(digits);
-            logger.info("change number to:" + phoneNumber);
-        } else {
-            //logger.info("phone number:" + phoneNumber);
+        if (digits.length == 11) {
+            if (digits[0] == '8') {
+                digits[0] = '7';
+                phoneNumber = String.valueOf(digits);
+                logger.info("change number to:" + phoneNumber);
+            } else {
+                //logger.info("phone number:" + phoneNumber);
+            }
+        } else if (digits.length == 10) {
+            phoneNumber = "7" + phoneNumber;
         }
         return phoneNumber;
     }

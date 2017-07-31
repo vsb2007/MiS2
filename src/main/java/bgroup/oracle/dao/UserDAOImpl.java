@@ -31,12 +31,18 @@ public class UserDAOImpl extends AbstractDao<Integer, User> implements UserDao {
     public CustomUser findByFio(String lastName, String firstName, String secondName,
                                 Date birthDate, String phone) {
         Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("cellular", phone));
+        //crit.add(Restrictions.in("cellular", "7" + phone, "8" + phone, phone));
         crit.add(Restrictions.eq("lastName", lastName.toLowerCase()));
         crit.add(Restrictions.eq("firstName", firstName.toLowerCase()));
         crit.add(Restrictions.eq("secondName", secondName.toLowerCase()));
         crit.add(Restrictions.eq("birthDate", birthDate));
-        User user = (User) crit.uniqueResult();
+        //User user = (User) crit.uniqueResult();
+        List<User> users = crit.list();
+        if (users == null || users.size() < 1) {
+            logger.error("user not found");
+            return null;
+        }
+        User user = findUserByPhone(phone, users);
         if (user == null) {
             logger.error("user not found");
             return null;
@@ -45,12 +51,32 @@ public class UserDAOImpl extends AbstractDao<Integer, User> implements UserDao {
         userToCustomUserFunction(customUser, user);
         customUser.setUsername("test22");
         customUser.setPassword("1234");
+        customUser.setPhoneAuth(phone);
         Role r = new Role();
         r.setName("ROLE_USER_PRE");
         List<Role> roles = new ArrayList<Role>();
         roles.add(r);
         customUser.setAuthorities(roles);
         return customUser;
+    }
+
+    private User findUserByPhone(String phone, List<User> users) {
+        for (User user : users) {
+            String userPhone = getPhoneFromUserPhone(user.getCellular());
+            if (userPhone != null) {
+                if (userPhone.equals(phone)
+                        || userPhone.equals("7" + phone)
+                        || userPhone.equals("8" + phone)
+                        || userPhone.equals("+7" + phone)
+                        ) return user;
+            }
+        }
+        return null;
+    }
+
+    private String getPhoneFromUserPhone(String cellular) {
+        String phone = cellular.trim().replaceAll(" |\\-|\\.", "");
+        return phone;
     }
 
     private void userToCustomUserFunction(CustomUser customUser, User user) {

@@ -3,18 +3,20 @@
     <!-- Аппендеры -->
     <!-- Файловый аппендер -->
     <appender name="file" class="ch.qos.logback.core.FileAppender">
-        <file>d:\tmp\log\logFile_MedicalPartners.log</file>
+        <!-- <file>d:\tmp\log\logFile.log</file> -->
         <!--         <file>/tmp/logFile_MiS2.log</file>-->
+        <file>/tmp/logFile.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>logs\logFile.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- <fileNamePattern>d:\tmp\log\logFile.%d{yyyy-MM-dd}.%i.log</fileNamePattern> -->
+            <fileNamePattern>/tmp/logFile.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- or whenever the file size reaches 50MB -->
                 <maxFileSize>15MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
             <!-- keep 30 days' worth of history -->
-            <maxHistory>60</maxHistory>
+            <maxHistory>3</maxHistory>
         </rollingPolicy>
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <charset>UTF-8</charset>
@@ -26,7 +28,7 @@
     <!--Консольный аппендер -->
     <appender name="sout" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} | line: %line : - %msg%n</Pattern>
         </layout>
     </appender>
     <!-- Фильтры -->

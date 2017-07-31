@@ -13,11 +13,13 @@
                     <%-- <c:url var="docsUrl" value="/getDocs"/>
                      <form action="${docsUrl}" method="post" class="">
                         --%>
+                <%--
                 <div class="row">
                     <div class="input-field col s6 offset-s2">
                             ${user.getLastName()} ${user.getFirstName()}
                     </div>
                 </div>
+                --%>
                 <div class="row">
                     <div class="input-field col s6 offset-s2">
                         <input type="text" class="validate" id="inn" name="inn" required autofocus/>

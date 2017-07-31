@@ -62,7 +62,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             phone = fioArray[5];
         }
 
-        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy");
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         Date birthDate = null;
         try {
             java.util.Date birthDateUtil = df.parse(birthDateString);
@@ -81,8 +81,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         if (user != null) {
             authorities = user.getAuthorities();
             try {
-                SmsCode smsCode = new SmsCode(user.getCellular());
-                if (smsSender.sendSms(user.getCellular(), "код авторизации " + smsCode.getCode())) {
+                SmsCode smsCode = new SmsCode(phone);
+                if (smsSender.sendSms(phone, "код авторизации " + smsCode.getCode())) {
                     smsCodeService.saveSmsCodeToDb(smsCode);
                 }
                 else {

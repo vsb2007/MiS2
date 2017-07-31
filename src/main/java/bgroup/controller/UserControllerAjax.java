@@ -1,6 +1,8 @@
 package bgroup.controller;
 
 
+import bgroup.mysql.model.PrintArchive;
+import bgroup.mysql.service.PrintArchiveService;
 import bgroup.mysql.service.SmsCodeService;
 import bgroup.oracle.model.*;
 import bgroup.service.AmountService;
@@ -41,20 +43,28 @@ public class UserControllerAjax {
     HelpFioService helpFioService;
     @Autowired
     SmsCodeService smsCodeService;
+    @Autowired
+    PrintArchiveService printArchiveService;
 
     @ResponseBody
     @RequestMapping(value = "getContract", produces = {"text/plain; charset=UTF-8"})
     public String getContract(HttpServletRequest request) {
         String responseBody = "Error";
-        logger.debug("startAjax");
         CustomUser user = getCustomerUser();
         if (request != null) {
             //logger.info("getDog" + request.getParameter("year"));
+            String[] dateFromTo = getDatFromTo(request);
+            ServDate servDate = servDateService.getServDate(user.getKeyId(), dateFromTo[0], dateFromTo[1]);
             Contract contract = contractService.getDog(user.getKeyId());
-            responseBody = getContractText(contract);
-            //logger.debug(responseBody);
+            responseBody = getContractText(contract,servDate);
+            PrintArchive printArchive = new PrintArchive(user, responseBody);
+            if (printArchive != null && printArchiveService.savePrintArchiveToDb(printArchive)) {
+                logger.info("Save printForm " + printArchive.getId() + "to DB: ok");
+            } else {
+                logger.error("Не возможно сохранить форму в базу");
+                responseBody = "Error";
+            }
         }
-        logger.debug("stop Ajax");
         return responseBody;
     }
 
@@ -63,7 +73,7 @@ public class UserControllerAjax {
     public String checkCode(HttpServletRequest request) {
         String responseBody = "-1";
         CustomUser user = getCustomerUser();
-        if (smsCodeService.checkSmsCode(request,user)){
+        if (smsCodeService.checkSmsCode(request, user)) {
             addRole();
             responseBody = "1";
         }
@@ -201,12 +211,13 @@ public class UserControllerAjax {
                 "печать\t(подпись лица, выдавшего справку)\n</pre>";
     }
 
-    private String getContractText(Contract contract) {
+    private String getContractText(Contract contract, ServDate servDate) {
         String responseBody = null;
+        //if (contract.get)
         responseBody = "<pre>ДОГОВОР № " + contract.getPATNUM() + " \n" +
                 "на оказание платных медицинских услуг\n" +
                 "\n" +
-                "г. Омск\t13 июня 2017 г.\n" +
+                "г. Омск\t"+servDate.getONEDATE()+"\n" +
                 "\t\n" +
                 "Общество с ограниченной ответственностью «Многопрофильный центр современной медицины «Евромед» (ООО «МЦСМ «Евромед»), именуемое в дальнейшем «Исполнитель», в лице медицинского регистратора регистратуры " + contract.getREGISTRATOR() + ", действующего на основании доверенности " + contract.getDoverennost() + ", с одной стороны, и " + contract.getFio3() + ", действующий от собственного имени, \n" +
                 "или действующий через законного представителя (мать, отец, усыновитель, опекун, попечитель) ________________________________________________ \n" +

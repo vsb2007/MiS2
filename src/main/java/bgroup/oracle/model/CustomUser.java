@@ -25,6 +25,15 @@ public class CustomUser extends User implements UserDetails {
     private boolean accountNonLocked = true;
     private boolean credentialsNonExpired = true;
     private boolean enabled = true;
+    private String phoneAuth = null;
+
+    public String getPhoneAuth() {
+        return phoneAuth;
+    }
+
+    public void setPhoneAuth(String phoneAuth) {
+        this.phoneAuth = phoneAuth;
+    }
 
     public String getUsername() {
         return username;

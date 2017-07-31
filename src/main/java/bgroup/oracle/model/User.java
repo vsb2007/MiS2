@@ -45,27 +45,7 @@ public class User implements Serializable {
     @Column(name = "SEX")
     private Integer sex;
 
-    //private String userName;
-
-    /*@Type(type = "org.hibernate.type.NumericBooleanType")
-    @Column(name = "BLOCKED", columnDefinition = "BIT default 1")
-    private Boolean blocked;
-
-    @Type(type = "org.hibernate.type.NumericBooleanType")
-    @Column(name = "DELETED", columnDefinition = "BIT default 0")
-    private Boolean deleted;
-*/
-  /*  @NotEmpty
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "APP_USER_USER_PROFILE",
-            joinColumns = {@JoinColumn(name = "USER_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "USER_PROFILE_ID")})
-            private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
-            */
-
-
-
-    public Integer getKeyId()  {
+    public Integer getKeyId() {
         return keyId;
     }
 
@@ -121,10 +101,10 @@ public class User implements Serializable {
         this.birthDate = birthDate;
     }
 
-      /*
-     * DO-NOT-INCLUDE passwords in toString function.
-     * It is done here just for convenience purpose.
-     */
+    /*
+   * DO-NOT-INCLUDE passwords in toString function.
+   * It is done here just for convenience purpose.
+   */
     @Override
     public String toString() {
         return "User [keyId=" + keyId + ", lastName=" + lastName

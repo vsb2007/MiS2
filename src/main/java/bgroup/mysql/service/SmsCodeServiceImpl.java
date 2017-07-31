@@ -70,18 +70,18 @@ public class SmsCodeServiceImpl implements SmsCodeService {
     }
 
     @Override
-    public boolean checkSmsCode(HttpServletRequest request, CustomUser user) {
-        if (user == null || user.getCellular() == null) return false;
+    public boolean checkSmsCode(HttpServletRequest request, CustomUser customUser) {
+        if (customUser == null || customUser.getCellular() == null) return false;
         String codeString = request.getParameter("code");
         Integer code = null;
         try {
             code = Integer.parseInt(codeString);
         } catch (Exception e) {
-            logger.debug("Filed check smsCode by:" + user.getCellular() + " code:" + codeString);
+            logger.debug("Filed check smsCode by:" + customUser.getPhoneAuth() + " code:" + codeString);
             return false;
         }
         if (code == null) return false;
-        if (checkSmsCode(code, user.getCellular())) return true;
+        if (checkSmsCode(code, customUser.getPhoneAuth())) return true;
         return false;
     }
 
