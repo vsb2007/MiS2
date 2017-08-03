@@ -101,10 +101,18 @@ public class User implements Serializable {
         this.birthDate = birthDate;
     }
 
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
+
     /*
-   * DO-NOT-INCLUDE passwords in toString function.
-   * It is done here just for convenience purpose.
-   */
+       * DO-NOT-INCLUDE passwords in toString function.
+       * It is done here just for convenience purpose.
+       */
     @Override
     public String toString() {
         return "User [keyId=" + keyId + ", lastName=" + lastName

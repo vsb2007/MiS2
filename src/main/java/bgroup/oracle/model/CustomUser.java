@@ -161,6 +161,16 @@ public class CustomUser extends User implements UserDetails {
         super.setBirthDate(birthDate);
     }
 
+    @Override
+    public Integer getSex() {
+        return super.getSex();
+    }
+
+    @Override
+    public void setSex(Integer sex) {
+        super.setSex(sex);
+    }
+
     public boolean isUserHasRole(String roleName) {
         for (Role role : this.authorities) {
             if (role.getName().equals(roleName)) return true;

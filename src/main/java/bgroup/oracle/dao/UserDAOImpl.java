@@ -62,6 +62,8 @@ public class UserDAOImpl extends AbstractDao<Integer, User> implements UserDao {
 
     private User findUserByPhone(String phone, List<User> users) {
         for (User user : users) {
+            logger.debug("SEX: {}", user.getSex());
+            //System.exit(-1);
             String userPhone = getPhoneFromUserPhone(user.getCellular());
             if (userPhone != null) {
                 if (userPhone.equals(phone)
@@ -75,7 +77,9 @@ public class UserDAOImpl extends AbstractDao<Integer, User> implements UserDao {
     }
 
     private String getPhoneFromUserPhone(String cellular) {
-        String phone = cellular.trim().replaceAll(" |\\-|\\.", "");
+        //String phone = cellular.trim().replaceAll(" |\\-|\\.", "");
+        //phone = phone.replaceAll("/[^-0-9]/gim","");
+        String phone = cellular.trim().replaceAll("[^0-9]", "");
         return phone;
     }
 
@@ -87,6 +91,6 @@ public class UserDAOImpl extends AbstractDao<Integer, User> implements UserDao {
         customUser.setPhone(user.getPhone());
         customUser.setCellular(user.getCellular());
         customUser.setKeyId(user.getKeyId());
-
+        customUser.setSex(user.getSex());
     }
 }

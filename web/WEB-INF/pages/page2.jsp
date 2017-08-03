@@ -22,7 +22,7 @@
                 --%>
                 <div class="row">
                     <div class="input-field col s6 offset-s2">
-                        <input type="text" class="validate" id="inn" name="inn" required autofocus/>
+                        <input type="text" class="validate" id="inn" name="inn" autofocus/>
                         <label for="inn">ИНН</label>
                     </div>
                 </div>
@@ -155,10 +155,11 @@
             }
             var token = document.getElementById("token");
             var inn = document.getElementById("inn");
+            /*
             if (inn == null || inn.value.length == 0) {
                 document.getElementById(idSpan).innerHTML = "loading...<br> Введите ИНН";
                 return;
-            }
+            }*/
             xmlhttp.open("POST", "getAmount", true);
             xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xmlhttp.send("year=" + year + "&" + inn.name + "=" + inn.value + "&" + token.name + "=" + token.value);
