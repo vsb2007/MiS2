@@ -30,7 +30,7 @@
                 <div class="row">
                     <div class="col s6 offset-s2">
                         <button class="btn waves-effect waves-light"
-                                onClick="javascript:getAmount('print-content',${years[0]});">Печать справки
+                                onClick="javascript:getAmount('print-content',${years[0]});">Печать справки и договора
                             за ${years[0]} год.
                             <i class="material-icons right">send</i>
                         </button>
@@ -39,16 +39,7 @@
                 <div class="row">
                     <div class="col s6 offset-s2">
                         <button class="btn waves-effect waves-light"
-                                onClick="javascript:getContract('print-content',${years[0]});">Печать договора
-                            за ${years[0]} год.
-                            <i class="material-icons right">send</i>
-                        </button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s6 offset-s2">
-                        <button class="btn waves-effect waves-light"
-                                onClick="javascript:getAmount('print-content',${years[1]});">Печать справки
+                                onClick="javascript:getAmount('print-content',${years[1]});">Печать справки и договора
                             за ${years[1]} год.
                             <i class="material-icons right">send</i>
                         </button>
@@ -57,34 +48,12 @@
                 <div class="row">
                     <div class="col s6 offset-s2">
                         <button class="btn waves-effect waves-light"
-                                onClick="javascript:getContract('print-content',${years[1]});">Печать договора
-                            за ${years[1]} год.
-                            <i class=" material-icons right
-                        ">send</i>
-                        </button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s6 offset-s2">
-                        <button class="btn waves-effect waves-light"
-                                onClick="javascript:getAmount('print-content',${years[2]});">Печать справки
+                                onClick="javascript:getAmount('print-content',${years[2]});">Печать справки и договора
                             за ${years[2]} год.
                             <i class="material-icons right">send</i>
                         </button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col s6 offset-s2">
-                        <button class="btn waves-effect waves-light"
-                                onClick="javascript:getContract('print-content',${years[2]});">Печать договора
-                            за ${years[2]} год.
-                            <i class="material-icons right">send</i>
-                        </button>
-                    </div>
-                </div>
-
-
-                    <%-- </form> --%>
             </div>
         </sec:authorize>
     </div>

@@ -58,6 +58,18 @@ public class UserControllerAjax {
             Contract contract = contractService.getDog(user.getKeyId());
             responseBody = getContractText(user, contract, servDate);
             PrintArchive printArchive = new PrintArchive(user, responseBody);
+
+            Amount amount = null;
+            try {
+                amount = amountService.getAmount(user.getKeyId(), dateFromTo[0], dateFromTo[1]);
+            } catch (Exception e) {
+                logger.error(e.toString());
+            }
+            if (amount.getAMOUNT2() == null || amount.getAMOUNT2().equals("") || amount.getAMOUNT2().equals("  ( копeeк) ")) {
+                return "Error: не было оказано платных услуг";
+            }
+
+
             if (printArchive != null && printArchiveService.savePrintArchiveToDb(printArchive)) {
                 logger.info("Save printForm " + printArchive.getId() + "to DB: ok");
             } else {
@@ -112,14 +124,17 @@ public class UserControllerAjax {
             } catch (Exception e) {
                 logger.error(e.toString());
             }
+            if (amount.getAMOUNT2() == null || amount.getAMOUNT2().equals("") || amount.getAMOUNT2().equals("  ( копeeк) ")) {
+                return "Error: не было оказано платных услуг";
+            }
 
-            logger.debug(amount.getAMOUNT());
             ServDate servDate = servDateService.getServDate(user.getKeyId(), dateFromTo[0], dateFromTo[1]);
             HelpFio helpFio = helpFioService.getHelpFio(user.getKeyId());
-            logger.debug(servDate.getMinservdate());
             if (user == null)
                 logger.debug("User: is null");
             responseBody = getAmountText(user, amount, servDate, helpFio, inn);
+            Contract contract = contractService.getDog(user.getKeyId());
+            responseBody += getContractText(user, contract, servDate);
             //responseBody = getAmountText(user,null,null);
             //logger.debug(responseBody);
         }
@@ -159,9 +174,6 @@ public class UserControllerAjax {
         if (user != null) {
             logger.debug("user is not null");
         }
-        logger.debug("222");
-        logger.debug("SEX: {}", user.getSex());
-        logger.debug("user: {}", user.getSex());
         if (user.getSex() != null && user.getSex() == 1) {
             hi = "она";
             his = "ей";
@@ -243,13 +255,30 @@ public class UserControllerAjax {
             pay = "оплатила";
             doing = "действующая";
         }
-        responseBody = "<pre>ДОГОВОР № " + contract.getPATNUM() + " \n" +
+        responseBody = "<style type=\"text/css\" media=\"print\">\n" +
+                "div.pagebreak {\n" +
+                "   \n" +
+                "page-break-before: always;\n" +
+                "}\n" +
+                "@media print { /* Стиль для печати */\n" +
+                "    body {\n" +
+                "     font-family: Times, 'Times New Roman', serif; /* Шрифт с засечками */\n" +
+                "    }\n" +
+                "    h1, h2, p {\n" +
+                "     color: #000; /* Черный цвет текста */\n" +
+                "    }\n" +
+                "}\n" +
+                "</style>\n" +
+                "\n" +
+                "<div class=\"pagebreak\"/>" +
+                "ДОГОВОР № " + contract.getPATNUM() + " \n" +
                 "на оказание платных медицинских услуг\n" +
                 "\n" +
                 "г. Омск\t" + servDate.getMinservdate() + "\n" +
                 "\t\n" +
-                "Общество с ограниченной ответственностью «Многопрофильный центр современной медицины «Евромед» (ООО «МЦСМ «Евромед»), именуемое в дальнейшем «Исполнитель», в лице медицинского " +
-                "регистратора регистратуры " + contract.getREGISTRATOR() + ", действующего на основании доверенности " + contract.getDoverennost() + ", с одной стороны, " +
+                "Общество с ограниченной ответственностью «Многопрофильный центр современной медицины «Евромед» (ООО «МЦСМ «Евромед»),\n" +
+                " именуемое в дальнейшем «Исполнитель», в лице медицинского \n" +
+                "регистратора регистратуры " + contract.getREGISTRATOR() + ", действующего на основании доверенности " + contract.getDoverennost() + ", с одной стороны, \n" +
                 "и " + contract.getFio3() + ", " + doing + " от собственного имени, \n" +
                 "или " + doing + " через законного представителя (мать, отец, усыновитель, опекун, попечитель) ________________________________________________ \n" +
                 "или " + doing + " через представителя _______________________________________________________________ по доверенности №_______________ от «_____» ______________________20___г., " +
@@ -309,7 +338,7 @@ public class UserControllerAjax {
                 "(ФИО, должность, подпись доверенного лица Исполнителя)\t\n" +
                 "\n" +
                 "_________________________\n" +
-                "(подпись Потребителя (представителя Потребителя))\n</pre>";
+                "(подпись Потребителя (представителя Потребителя))\n";
 
         return responseBody;
     }

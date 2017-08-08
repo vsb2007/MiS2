@@ -64,10 +64,14 @@ public class UserController {
      * This method handles Access-Denied redirect.
      */
     @RequestMapping(value = "/Access_Denied")
-    public ModelAndView accessDeniedPage() {
+    public ModelAndView accessDeniedPage(HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
-        model.addObject("error", "Ошибка авторизации");
-        logger.debug("Ошибка авторизации");
+        model.addObject("error", "Ошибка авторизации!!!");
+        model.addObject("lastName", request.getParameter("lastName"));
+        model.addObject("firstName", request.getParameter("firstName"));
+        model.addObject("secondName", request.getParameter("secondName"));
+        model.addObject("birthDate", request.getParameter("birthDate"));
+        model.addObject("phone", request.getParameter("phone"));
         model.setViewName("login");
         return model;
         //return "accessDenied";

@@ -43,7 +43,7 @@
         </sec:authorize>
     </div>
     <div id="statusCheck">
-        Содержимое для печати
+
     </div>
     <script language="javascript">
         function checkCode(idSpan) {

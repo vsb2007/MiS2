@@ -33,7 +33,8 @@
                     </c:if>
                     <div class="row">
                         <div class="input-field col s6 offset-s2">
-                            <input type="text" class="validate" id="lastName" name="lastName" required autofocus/>
+                            <input type="text" class="validate" id="lastName" name="lastName" required autofocus
+                            value="${lastName}"/>
                             <label for="lastName">Фамилия</label>
                             <input type="hidden" name="username" value="Test22"/>
                             <input type="hidden" name="password" value="Test22"/>
@@ -41,13 +42,15 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s6 offset-s2">
-                            <input type="text" class="validate" id="firstName" name="firstName" required autofocus/>
+                            <input type="text" class="validate" id="firstName" name="firstName" required autofocus
+                                   value="${firstName}"/>
                             <label for="firstName">Имя</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6 offset-s2">
-                            <input type="text" class="validate" id="secondName" name="secondName" required autofocus/>
+                            <input type="text" class="validate" id="secondName" name="secondName" required autofocus
+                                   value="${secondName}"/>
                             <label for="secondName">Отчество</label>
                         </div>
                     </div>
@@ -57,6 +60,7 @@
                                    pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}" placeholder="01.01.1970"
                                    onkeyup="validateBirth(this,event.keyCode)"
                                    onchange="validateBirth(this,event.keyCode)"
+                                   value="${birthDate}"
                             />
                             <label for="birthDate">Дата рождения</label>
                         </div>
@@ -65,7 +69,8 @@
                         <div class="input-field col s6 offset-s2">
                             <input type="text" class="validate" id="phone" name="phone" required autofocus
                                    pattern="\d\d\d\d\d\d\d\d\d\d" placeholder="9223334444"
-                                   onkeyup="validatePhone(this)" onchange="validatePhone(this)"/>
+                                   onkeyup="validatePhone(this)" onchange="validatePhone(this)"
+                                   value="${phone}"/>
                             <label for="phone">Номер сотового телефона</label>
                         </div>
                     </div>
