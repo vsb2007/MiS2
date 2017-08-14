@@ -14,3 +14,4 @@
 <sec:authorize access="!hasRole('ROLE_USER')">
     <li><a href="login"><i class="material-icons left">power_settings_new</i>Вход</a></li>
 </sec:authorize>
+

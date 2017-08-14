@@ -5,6 +5,7 @@
     <nav>
         <div class="nav-wrapper blue-grey">
             <a href="#" data-activates="mobile-menu" class="button-collapse"><i class="material-icons">menu</i></a>
+            <a href="#" class="brand-logo center"><img src="images/logoEuromed.png" width="250"/></a>
             <ul class="left hide-on-med-and-down">
                 <%@include file="menu_li.jsp" %>
             </ul>
