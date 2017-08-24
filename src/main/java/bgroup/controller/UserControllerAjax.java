@@ -140,8 +140,14 @@ public class UserControllerAjax {
             responseBody = getAmountText(user, amount, servDate, helpFio, inn);
             Contract contract = contractService.getDog(user.getKeyId());
             responseBody += getContractText(user, contract, servDate);
-            //responseBody = getAmountText(user,null,null);
-            //logger.debug(responseBody);
+
+            PrintArchive printArchive = new PrintArchive(user, responseBody);
+            if (printArchive != null && printArchiveService.savePrintArchiveToDb(printArchive)) {
+                logger.info("Save printForm " + printArchive.getId() + "to DB: ok");
+            } else {
+                logger.error("Не возможно сохранить форму в базу");
+                responseBody = "Error";
+            }
         }
         logger.debug("stop Ajax");
         return responseBody;
