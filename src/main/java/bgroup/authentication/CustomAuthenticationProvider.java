@@ -80,19 +80,23 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         Collection<? extends GrantedAuthority> authorities = null;
         if (user != null) {
             authorities = user.getAuthorities();
+
             try {
+
                 SmsCode smsCode = new SmsCode(phone);
-                if (smsSender.sendSms(phone, "код авторизации " + smsCode.getCode())) {
+                //if (smsSender.sendSms(phone, "код авторизации " + smsCode.getCode())) {
+                if (true) {
                     smsCodeService.saveSmsCodeToDb(smsCode);
-                }
-                else {
+                } else {
                     user = null;
                 }
+
             } catch (Exception e) {
                 user = null;
                 e.printStackTrace();
                 logger.error("Нельзя отправить смс");
             }
+
         }
 
         return new UsernamePasswordAuthenticationToken(user, password, authorities);

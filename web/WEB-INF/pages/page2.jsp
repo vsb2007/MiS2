@@ -10,46 +10,32 @@
     <div class="container">
         <sec:authorize access="hasRole('ROLE_USER')">
             <div class="row">
-                    <%-- <c:url var="docsUrl" value="/getDocs"/>
-                     <form action="${docsUrl}" method="post" class="">
-                        --%>
-                <%--
-                <div class="row">
-                    <div class="input-field col s6 offset-s2">
-                            ${user.getLastName()} ${user.getFirstName()}
-                    </div>
-                </div>
-                --%>
                 <div class="row">
                     <div class="input-field col s6 offset-s2">
                         <input type="text" class="validate" id="inn" name="inn" autofocus/>
                         <label for="inn">ИНН</label>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="input-field col s6 offset-s2">
+                        <p>
+                            <input type="checkbox" id="year0" name="year0"/>
+                            <label for="year0">${years[0]}</label>
+                            <br/>
+                            <input type="checkbox" id="year1" name="year1"/>
+                            <label for="year1">${years[1]}</label>
+                            <br/>
+                            <input type="checkbox" id="year2" name="year2"/>
+                            <label for="year2">${years[2]}</label>
+                        </p>
+                    </div>
+                </div>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" id="token"/>
                 <div class="row">
                     <div class="col s6 offset-s2">
                         <button class="btn waves-effect waves-light"
-                                onClick="javascript:getAmount('print-content',${years[0]});">Печать справки и договора
-                            за ${years[0]} год.
-                            <i class="material-icons right">send</i>
-                        </button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s6 offset-s2">
-                        <button class="btn waves-effect waves-light"
-                                onClick="javascript:getAmount('print-content',${years[1]});">Печать справки и договора
-                            за ${years[1]} год.
-                            <i class="material-icons right">send</i>
-                        </button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s6 offset-s2">
-                        <button class="btn waves-effect waves-light"
-                                onClick="javascript:getAmount('print-content',${years[2]});">Печать справки и договора
-                            за ${years[2]} год.
+                                onClick="javascript:getAmount('print-content',null);">Печать справки и договора
+                            за указанные года.
                             <i class="material-icons right">send</i>
                         </button>
                     </div>
@@ -58,7 +44,6 @@
         </sec:authorize>
     </div>
     <div id="print-content">
-        Содержимое для печати
     </div>
     <script type="text/javascript">
         //window.print();
@@ -67,7 +52,7 @@
         //window.print();
     </script>
     <script language="javascript">
-        function CallPrint(idSpan,contract) {
+        function CallPrint(idSpan, contract) {
             var prtContent = document.getElementById(idSpan);
             //var prtCSS = '<link rel="stylesheet" href="/templates/css/template.css" type="text/css" />';
             var WinPrint = window.open('', '', 'left=50,top=50,width=800,height=640,toolbar=0,scrollbars=1,status=0');
@@ -82,6 +67,7 @@
             //prtContent.innerHTML = strOldOne;
             prtContent.innerHTML = "";
         }
+
         function getContract(idSpan, year) {
 
             var xmlhttp;
@@ -96,7 +82,7 @@
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                     //document.getElementById(idSpan).innerHTML = xmlhttp.responseText;
-                    CallPrint(idSpan,xmlhttp.responseText);
+                    CallPrint(idSpan, xmlhttp.responseText);
                 }
             }
             var token = document.getElementById("token");
@@ -104,6 +90,7 @@
             xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xmlhttp.send("year=" + year + "&" + token.name + "=" + token.value);
         }
+
         function getAmount(idSpan, year) {
 
             var xmlhttp;
@@ -119,7 +106,7 @@
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                     //document.getElementById(idSpan).innerHTML = xmlhttp.responseText;
                     //CallPrint(idSpan);
-                    CallPrint(idSpan,xmlhttp.responseText);
+                    CallPrint(idSpan, xmlhttp.responseText);
                 }
             }
             var token = document.getElementById("token");

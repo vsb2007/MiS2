@@ -21,6 +21,7 @@ public class CustomUser extends User implements UserDetails {
 
     /* Spring Security related fields*/
     private List<Role> authorities;
+    private List<CustomUser> customUserList;
     private boolean accountNonExpired = true;
     private boolean accountNonLocked = true;
     private boolean credentialsNonExpired = true;
@@ -178,4 +179,11 @@ public class CustomUser extends User implements UserDetails {
         return false;
     }
 
+    public List<CustomUser> getCustomUserList() {
+        return customUserList;
+    }
+
+    public void setCustomUserList(List<CustomUser> customUserList) {
+        this.customUserList = customUserList;
+    }
 }

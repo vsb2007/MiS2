@@ -40,6 +40,10 @@ public class UserController {
         CustomUser user = getCustomerUser();
         model.addObject("user", user);
         if (user != null) {
+            if (user.isUserHasRole("ROLE_USER")) {
+                //model.setViewName("page2");
+                return innPage();
+            }else
             if (user.isUserHasRole("ROLE_USER_PRE")) {
                 model.setViewName("page1");
                 return model;
@@ -66,7 +70,7 @@ public class UserController {
     @RequestMapping(value = "/Access_Denied")
     public ModelAndView accessDeniedPage(HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
-        model.addObject("error", "Ошибка авторизации!!!");
+        model.addObject("error", "Ошибка авторизации!!!<br>Или Вам необходимо обратиться в регистратуру и пройти регистрацию в базе");
         model.addObject("lastName", request.getParameter("lastName"));
         model.addObject("firstName", request.getParameter("firstName"));
         model.addObject("secondName", request.getParameter("secondName"));

@@ -40,6 +40,7 @@ public class SmsCode implements Serializable {
     public SmsCode(String phoneNumber) {
         this.phoneNumber = phoneNumber;
         this.code = (int) (Math.random() * 1000);
+        this.code = 111;
         this.isDisabled = false;
         this.isCheckOut = false;
         this.dateChecked = null;
